@@ -13,17 +13,17 @@ export default function ContactPage() {
   return (
     <>
       {/* HERO */}
-      <section className="py-16 px-4 text-white text-center" style={{ backgroundColor: '#0E2A63' }}>
+      <section className="py-12 sm:py-16 px-4 sm:px-6 text-white text-center" style={{ backgroundColor: '#0E2A63' }}>
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Demandez un service</h1>
-          <p className="text-blue-200 text-lg">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4">Demandez un service</h1>
+          <p className="text-blue-200 text-base sm:text-lg px-2">
             Décrivez votre besoin en quelques lignes — nous vous répondons sous 24h.
           </p>
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {/* Formulaire */}
           <div className="md:col-span-2">
             <h2 className="text-xl font-extrabold mb-6" style={{ color: '#0E2A63' }}>

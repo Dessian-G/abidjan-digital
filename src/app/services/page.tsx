@@ -63,28 +63,28 @@ export default function ServicesPage() {
   return (
     <>
       {/* HERO */}
-      <section className="py-16 px-4 text-white text-center" style={{ backgroundColor: '#0E2A63' }}>
+      <section className="py-12 sm:py-16 px-4 sm:px-6 text-white text-center" style={{ backgroundColor: '#0E2A63' }}>
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Nos services</h1>
-          <p className="text-blue-200 text-lg">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4">Nos services</h1>
+          <p className="text-blue-200 text-base sm:text-lg px-2">
             Trois expertises pour accompagner votre développement digital, de la formation à la création.
           </p>
         </div>
       </section>
 
       {/* SERVICES */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-5xl mx-auto space-y-16">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
+        <div className="max-w-5xl mx-auto space-y-12 sm:space-y-16">
           {services.map(({ id, icon: Icon, color, bg, title, intro, benefits, deliverables }, idx) => (
             <div
               key={id}
               id={id}
-              className={`flex flex-col ${idx % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-start`}
+              className={`flex flex-col ${idx % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-6 sm:gap-8 items-start`}
             >
               {/* Visual card */}
               <div
-                className="w-full md:w-2/5 rounded-2xl p-8 flex flex-col items-center justify-center text-center shrink-0"
-                style={{ backgroundColor: bg, minHeight: '220px' }}
+                className="w-full md:w-2/5 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center shrink-0"
+                style={{ backgroundColor: bg, minHeight: '180px' }}
               >
                 <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-sm" style={{ backgroundColor: `${color}20` }}>
                   <Icon size={32} style={{ color }} />
@@ -133,9 +133,9 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-14 px-4 text-center" style={{ backgroundColor: '#f7f9ff' }}>
+      <section className="py-10 sm:py-14 px-4 sm:px-6 text-center" style={{ backgroundColor: '#f7f9ff' }}>
         <div className="max-w-xl mx-auto">
-          <h2 className="text-2xl font-extrabold mb-3" style={{ color: '#0E2A63' }}>Un projet en tête ?</h2>
+          <h2 className="text-xl sm:text-2xl font-extrabold mb-3" style={{ color: '#0E2A63' }}>Un projet en tête ?</h2>
           <p className="text-gray-500 mb-6">Dites-nous ce dont vous avez besoin — nous vous répondrons sous 24h.</p>
           <Link
             href="/contact"

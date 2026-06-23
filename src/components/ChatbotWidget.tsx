@@ -64,8 +64,8 @@ export default function ChatbotWidget() {
 
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-24 right-5 z-50 w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100"
-          style={{ height: '480px' }}>
+        <div className="fixed bottom-20 sm:bottom-24 right-3 sm:right-5 z-50 w-[92vw] sm:w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100"
+          style={{ height: 'min(480px, 70vh)' }}>
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 text-white" style={{ backgroundColor: '#0E2A63' }}>
             <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4791F' }}>

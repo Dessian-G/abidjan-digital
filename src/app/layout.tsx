@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   description:
     "Abidjan Digital.ia est votre partenaire digital : formations IA, création d'infographies et de sites web. Présent à Fort Worth (Texas) et Abidjan (Côte d'Ivoire).",
   keywords: "agence digitale, intelligence artificielle, formation IA, site web, infographie, Abidjan, Fort Worth, Côte d'Ivoire",
+  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
   openGraph: {
     title: 'Abidjan Digital.ia — Apprenez. Automatisez. Réussissez.',
     description: 'Studio web & IA pour entrepreneurs francophones — Fort Worth & Abidjan.',

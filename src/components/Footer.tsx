@@ -4,10 +4,10 @@ import { MapPin, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="text-white pt-12 pb-6" style={{ backgroundColor: '#0E2A63' }}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+    <footer className="text-white pt-10 sm:pt-12 pb-6" style={{ backgroundColor: '#0E2A63' }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
         {/* Brand */}
-        <div className="col-span-1 sm:col-span-2 md:col-span-1">
+        <div className="col-span-2 sm:col-span-2 md:col-span-1">
           <div className="flex items-center gap-3 mb-4">
             <Image
               src="/logo.jpg"
@@ -46,6 +46,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-blue-200">
             <li><Link href="/" className="hover:text-white transition-colors">Accueil</Link></li>
             <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
+            <li><Link href="/projets" className="hover:text-white transition-colors">Projets</Link></li>
             <li><Link href="/a-propos" className="hover:text-white transition-colors">À propos</Link></li>
             <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
           </ul>
