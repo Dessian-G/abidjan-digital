@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@type': 'LocalBusiness',
               name: 'Abidjan Digital.ia',
               description: 'Studio web & intelligence artificielle',
-              email: 'abidjandigitalia@gmail.com',
+              email: 'abidjandigitail.ia@gmail.com',
               address: [
                 {
                   '@type': 'PostalAddress',

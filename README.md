@@ -24,7 +24,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 | Variable | Description | Où l'obtenir |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | Clé API pour le chatbot Adia (Claude) | [console.anthropic.com](https://console.anthropic.com/) |
-| `NEXT_PUBLIC_WEB3FORMS_KEY` | Clé pour l'envoi du formulaire de contact | [web3forms.com](https://web3forms.com/) — entrez `abidjandigitalia@gmail.com` |
+| `NEXT_PUBLIC_WEB3FORMS_KEY` | Clé pour l'envoi du formulaire de contact | [web3forms.com](https://web3forms.com/) — entrez `abidjandigitail.ia@gmail.com` |
 
 > ⚠️ Ne commitez jamais `.env.local` — il est déjà dans `.gitignore`.
 

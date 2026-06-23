@@ -43,7 +43,7 @@ export default function ChatbotWidget() {
     } catch {
       setMessages([
         ...newMessages,
-        { role: 'assistant', content: "Une erreur est survenue. Veuillez écrire à abidjandigitalia@gmail.com." },
+        { role: 'assistant', content: "Une erreur est survenue. Veuillez écrire à abidjandigitail.ia@gmail.com." },
       ]);
     } finally {
       setLoading(false);
