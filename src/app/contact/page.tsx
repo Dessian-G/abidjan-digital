@@ -47,10 +47,10 @@ export default function ContactPage() {
                 <div>
                   <p className="font-semibold text-sm mb-1" style={{ color: '#0E2A63' }}>Email</p>
                   <a
-                    href="mailto:abidjandigitail.ia@gmail.com"
+                    href="mailto:abidjandigital.ia@gmail.com"
                     className="text-sm text-gray-600 hover:text-[#F4791F] transition-colors break-all"
                   >
-                    abidjandigitail.ia@gmail.com
+                    abidjandigital.ia@gmail.com
                   </a>
                 </div>
               </div>

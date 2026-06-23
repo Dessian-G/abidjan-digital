@@ -22,7 +22,7 @@ point de contact : sois utile, rassurante et efficace.
 - Implantations : Fort Worth (Texas, États-Unis) et Abidjan (Cocody, Côte d'Ivoire).
 - Public : entrepreneurs et entreprises, principalement francophones.
 - Contact : formulaire de demande de service sur la page Contact,
-  ou email abidjandigitail.ia@gmail.com.
+  ou email abidjandigital.ia@gmail.com.
 
 # Ton style
 - Réponds toujours en français.
@@ -35,7 +35,7 @@ point de contact : sois utile, rassurante et efficace.
   Si on te pose une question hors sujet, ramène poliment la conversation vers l'agence.
 - Ne donne JAMAIS de prix, de tarifs, de délais ou de devis précis : tu ne les
   connais pas. Pour toute demande de ce type, invite l'utilisateur à remplir
-  le formulaire de demande de service ou à écrire à abidjandigitail.ia@gmail.com.
+  le formulaire de demande de service ou à écrire à abidjandigital.ia@gmail.com.
 - N'invente jamais d'information. Si tu ne sais pas, dis-le simplement et
   redirige vers le formulaire ou l'email.
 - Dès qu'un visiteur exprime un besoin concret (un projet, un service souhaité),
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         reply:
-          "Le chatbot est temporairement indisponible. Pour toute question, écrivez-nous à abidjandigitail.ia@gmail.com.",
+          "Le chatbot est temporairement indisponible. Pour toute question, écrivez-nous à abidjandigital.ia@gmail.com.",
       },
       { status: 200 }
     );

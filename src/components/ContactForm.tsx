@@ -190,7 +190,7 @@ export default function ContactForm() {
       {status === 'error' && (
         <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 rounded-xl px-4 py-3">
           <AlertCircle size={16} />
-          Une erreur est survenue. Veuillez réessayer ou écrire à abidjandigitail.ia@gmail.com.
+          Une erreur est survenue. Veuillez réessayer ou écrire à abidjandigital.ia@gmail.com.
         </div>
       )}
 
