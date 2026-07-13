@@ -30,16 +30,51 @@ interface Project {
 }
 
 const projects: Project[] = [
-  // --- Ajoutez vos projets ici ---
-  // Exemple :
-  // {
-  //   title: 'Boutique Awa Fashion',
-  //   category: 'Site web',
-  //   description: 'Site e-commerce pour une marque de mode africaine basée à Abidjan.',
-  //   image: '/projets/awa-fashion.jpg',
-  //   link: 'https://awa-fashion.com',
-  //   tags: ['E-commerce', 'Next.js', 'Stripe'],
-  // },
+  {
+    title: 'Carnet Djassa',
+    category: 'Site web',
+    description:
+      "Carnet de dettes digital pour commerçants d'Abidjan : suivi des crédits clients, reçus partageables et relances polies en un clic sur WhatsApp. Fonctionne même hors connexion.",
+    image: '/projets/carnet-djassa.jpg',
+    link: 'https://carnet-djassa.vercel.app',
+    tags: ['PWA', 'Firebase', 'Offline-first'],
+  },
+  {
+    title: 'Mon Commerce',
+    category: 'Site web',
+    description:
+      "Application de commande et de livraison avec espaces Admin, Livreur et Client — commande possible sans création de compte pour le client.",
+    image: '/projets/mon-commerce.jpg',
+    link: 'https://livraison-app-two.vercel.app',
+    tags: ['React', 'Firebase', 'Livraison'],
+  },
+  {
+    title: 'PharmaGarde CI',
+    category: 'Site web',
+    description:
+      'Localisateur de pharmacies de garde à Abidjan en temps réel, pour trouver rapidement la pharmacie ouverte la plus proche.',
+    image: '/projets/pharmagarde-ci.jpg',
+    link: 'https://pharmagarde-ci.vercel.app',
+    tags: ['PWA', 'Firebase', 'Géolocalisation'],
+  },
+  {
+    title: 'Kaman Chantier',
+    category: 'Site web',
+    description:
+      "Suivi transparent des dépenses de chantier pour la diaspora : chaque dépense justifiée par une photo horodatée et non modifiable, tableau de bord temps réel pour le propriétaire.",
+    image: '/projets/kaman-chantier.jpg',
+    link: 'https://kaman-chantier.vercel.app',
+    tags: ['PWA', 'Firebase', 'Cloudinary'],
+  },
+  {
+    title: 'Ma Tontine',
+    category: 'Site web',
+    description:
+      'Gestion digitale de tontines : grille de cotisations membres × mois, reçus automatiques et rappels envoyés directement sur WhatsApp.',
+    image: '/projets/ma-tontine.jpg',
+    link: 'https://ma-tontine-d2a32.web.app',
+    tags: ['PWA', 'Firebase', 'WhatsApp'],
+  },
 ];
 
 function EmptyState() {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GraduationCap, Image as ImageIcon, Globe, CheckCircle, MapPin, Zap, Users } from 'lucide-react';
+import { GraduationCap, Image as ImageIcon, Globe, CheckCircle, MapPin, Zap, Users, ExternalLink } from 'lucide-react';
 import NetworkBackground from '@/components/NetworkBackground';
 import TypewriterText from '@/components/TypewriterText';
 import PulseLink from '@/components/PulseLink';
@@ -28,6 +28,24 @@ const services = [
       'Sites vitrines, e-commerce ou landing pages : nous concevons votre présence en ligne, de A à Z, rapide et moderne.',
     color: '#0E2A63',
     href: '/services#sites-web',
+  },
+];
+
+const projectsPreview = [
+  {
+    title: 'Carnet Djassa',
+    description: 'Carnet de dettes digital pour commerçants — reçus WhatsApp et relances en un clic.',
+    link: 'https://carnet-djassa.vercel.app',
+  },
+  {
+    title: 'Kaman Chantier',
+    description: 'Suivi des dépenses de chantier pour la diaspora, preuve photo horodatée.',
+    link: 'https://kaman-chantier.vercel.app',
+  },
+  {
+    title: 'Ma Tontine',
+    description: 'Gestion digitale de tontines : grille de cotisations et reçus automatiques.',
+    link: 'https://ma-tontine-d2a32.web.app',
   },
 ];
 
@@ -169,10 +187,22 @@ export default function HomePage() {
           <p className="text-gray-500 max-w-xl mx-auto mb-8 sm:mb-10">
             Decouvrez nos realisations et les projets sur lesquels nous travaillons.
           </p>
-          <div className="rounded-2xl border border-gray-100 p-8 sm:p-12 mb-8" style={{ backgroundColor: '#f7f9ff' }}>
-            <p className="text-gray-400 text-sm sm:text-base mb-4">
-              Nos projets arrivent bientot — restez connectes !
-            </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 text-left">
+            {projectsPreview.map(p => (
+              <a
+                key={p.title}
+                href={p.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-gray-100 p-5 sm:p-6 hover:shadow-md hover:-translate-y-1 transition-all bg-white"
+              >
+                <h3 className="font-bold mb-2 flex items-center gap-1.5" style={{ color: '#0E2A63' }}>
+                  {p.title}
+                  <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#F4791F' }} />
+                </h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{p.description}</p>
+              </a>
+            ))}
           </div>
           <Link
             href="/projets"
