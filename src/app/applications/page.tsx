@@ -1,15 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { AlertTriangle, ExternalLink, X } from 'lucide-react';
 import {
   APPS,
   CATEGORIES,
-  STATUT_LABELS,
   WHATSAPP_NUMBER,
   type AppCategory,
   type PortfolioApp,
 } from '@/lib/apps.config';
+import { useLanguage } from '@/context/LanguageContext';
+import { Translations } from '@/lib/i18n';
 
 const STATUT_COLORS: Record<PortfolioApp['statut'], string> = {
   'en-ligne': '#4FB52B',
@@ -17,12 +18,12 @@ const STATUT_COLORS: Record<PortfolioApp['statut'], string> = {
   bientot: '#9CA3AF',
 };
 
-function lienWhatsApp(app: PortfolioApp): string {
+function lienWhatsApp(app: PortfolioApp, t: Translations): string {
   const numero = app.whatsapp ?? WHATSAPP_NUMBER;
   const message =
     app.statut === 'bientot'
-      ? `Bonjour ! Je souhaite être averti(e) du lancement de l'application ${app.nom}.`
-      : `Bonjour ! Je suis intéressé(e) par l'application ${app.nom} et j'aimerais en savoir plus.`;
+      ? `${t.applications.whatsappNotifyMessagePrefix}${app.nom}.`
+      : `${t.applications.whatsappInterestMessagePrefix}${app.nom}${t.applications.whatsappInterestMessageSuffix}`;
   return `https://wa.me/${numero}?text=${encodeURIComponent(message)}`;
 }
 
@@ -34,8 +35,62 @@ function WhatsAppIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-function AppCard({ app }: { app: PortfolioApp }) {
+function ConfirmOpenModal({ app, t, onCancel, onConfirm }: { app: PortfolioApp; t: Translations; onCancel: () => void; onConfirm: () => void }) {
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => e.key === 'Escape' && onCancel();
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onCancel]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4"
+      onClick={onCancel}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-open-title"
+        className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div className="flex items-center gap-2">
+            <AlertTriangle size={20} style={{ color: '#F4791F' }} />
+            <h3 id="confirm-open-title" className="font-bold text-base" style={{ color: '#0E2A63' }}>
+              {t.applications.modal.title}
+            </h3>
+          </div>
+          <button onClick={onCancel} aria-label={t.applications.modal.closeLabel} className="text-gray-400 hover:text-gray-600 shrink-0">
+            <X size={18} />
+          </button>
+        </div>
+        <p className="text-sm text-gray-600 leading-relaxed mb-6">
+          <strong>{app.nom}</strong>{t.applications.modal.warningSuffix}
+        </p>
+        <div className="flex gap-3">
+          <button
+            onClick={onCancel}
+            className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-600 transition-colors hover:bg-gray-50"
+          >
+            {t.applications.modal.cancel}
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex-1 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105"
+            style={{ backgroundColor: app.couleur }}
+          >
+            {t.applications.modal.confirm}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AppCard({ app, t, onRequestOpen }: { app: PortfolioApp; t: Translations; onRequestOpen: (app: PortfolioApp) => void }) {
   const cliquable = app.statut !== 'bientot';
+  const translated = t.applications.apps[app.id];
 
   return (
     <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 overflow-hidden flex flex-col">
@@ -57,46 +112,45 @@ function AppCard({ app }: { app: PortfolioApp }) {
               className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold text-white"
               style={{ backgroundColor: STATUT_COLORS[app.statut] }}
             >
-              {STATUT_LABELS[app.statut]}
+              {t.applications.statusLabels[app.statut]}
             </span>
           </div>
         </div>
 
         <p className="font-semibold text-sm mb-1.5" style={{ color: '#0E2A63' }}>
-          {app.tagline}
+          {translated.tagline}
         </p>
         <p className="text-gray-500 text-sm leading-relaxed mb-4 flex-1">
-          {app.description}
+          {translated.description}
         </p>
 
         <span className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
-          {app.categorie}
+          {t.applications.categories[app.categorie]}
         </span>
 
         <div className="flex flex-wrap items-center gap-2">
           {cliquable && (
-            <a
-              href={app.url}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => onRequestOpen(app)}
               className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105"
               style={{ backgroundColor: app.couleur }}
             >
-              Ouvrir l&apos;app <ExternalLink size={14} />
-            </a>
+              {t.applications.openApp} <ExternalLink size={14} />
+            </button>
           )}
           <a
-            href={lienWhatsApp(app)}
+            href={lienWhatsApp(app, t)}
             target="_blank"
             rel="noopener noreferrer"
             className={`inline-flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105 ${
               cliquable ? '' : 'flex-1'
             }`}
             style={{ backgroundColor: '#25D366' }}
-            aria-label={`Contacter sur WhatsApp au sujet de ${app.nom}`}
+            aria-label={`${t.applications.whatsappAriaPrefix}${app.nom}`}
           >
             <WhatsAppIcon />
-            {cliquable ? 'WhatsApp' : 'Être averti(e)'}
+            {cliquable ? t.applications.whatsappLabel : t.applications.notifyMe}
           </a>
         </div>
       </div>
@@ -105,7 +159,14 @@ function AppCard({ app }: { app: PortfolioApp }) {
 }
 
 export default function ApplicationsPage() {
+  const { t } = useLanguage();
   const [filtre, setFiltre] = useState<AppCategory | 'Toutes'>('Toutes');
+  const [pendingApp, setPendingApp] = useState<PortfolioApp | null>(null);
+
+  const confirmerOuverture = () => {
+    if (pendingApp) window.open(pendingApp.url, '_blank', 'noopener,noreferrer');
+    setPendingApp(null);
+  };
 
   const appsVisibles =
     filtre === 'Toutes' ? APPS : APPS.filter(a => a.categorie === filtre);
@@ -120,12 +181,10 @@ export default function ApplicationsPage() {
       <section className="py-12 sm:py-16 px-4 sm:px-6 text-white text-center" style={{ backgroundColor: '#0E2A63' }}>
         <div className="max-w-3xl mx-auto">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4">
-            Nos applications
+            {t.applications.heroTitle}
           </h1>
           <p className="text-blue-200 text-base sm:text-lg px-2">
-            Des outils numériques pensés pour les entrepreneurs africains — installables
-            directement depuis votre navigateur, même sur une connexion instable. Une
-            application vous intéresse ? Écrivez-nous en un clic sur WhatsApp.
+            {t.applications.heroSubtitle}
           </p>
         </div>
       </section>
@@ -136,7 +195,7 @@ export default function ApplicationsPage() {
           <div
             className="flex gap-2 overflow-x-auto pb-2 mb-8 sm:mb-10 justify-start sm:justify-center"
             role="tablist"
-            aria-label="Filtrer par catégorie"
+            aria-label={t.applications.filterAriaLabel}
           >
             {(['Toutes', ...categoriesActives] as const).map(c => (
               <button
@@ -152,20 +211,20 @@ export default function ApplicationsPage() {
                     : { color: '#0E2A63', borderColor: '#e5e7eb', backgroundColor: '#fff' }
                 }
               >
-                {c}
+                {c === 'Toutes' ? t.applications.categoryAll : t.applications.categories[c]}
               </button>
             ))}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {appsVisibles.map(app => (
-              <AppCard key={app.id} app={app} />
+              <AppCard key={app.id} app={app} t={t} onRequestOpen={setPendingApp} />
             ))}
           </div>
 
           {appsVisibles.length === 0 && (
             <p className="py-16 text-center text-gray-500">
-              Aucune application dans cette catégorie pour le moment.
+              {t.applications.emptyCategory}
             </p>
           )}
         </div>
@@ -175,22 +234,31 @@ export default function ApplicationsPage() {
       <section className="py-10 sm:py-14 px-4 sm:px-6 text-center" style={{ backgroundColor: '#f7f9ff' }}>
         <div className="max-w-xl mx-auto">
           <h2 className="text-xl sm:text-2xl font-extrabold mb-3" style={{ color: '#0E2A63' }}>
-            Une idée d&apos;application pour votre activité ?
+            {t.applications.ctaTitle}
           </h2>
           <p className="text-gray-500 mb-6 text-sm sm:text-base">
-            Parlez-nous de votre besoin — nous concevons des outils numériques sur mesure.
+            {t.applications.ctaText}
           </p>
           <a
-            href={lienWhatsApp({ nom: 'un projet sur mesure', statut: 'beta' } as PortfolioApp)}
+            href={lienWhatsApp({ nom: t.applications.customProjectLabel, statut: 'beta' } as PortfolioApp, t)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-white shadow-md hover:shadow-lg transition-transform hover:scale-105 text-sm sm:text-base"
             style={{ backgroundColor: '#25D366' }}
           >
-            <WhatsAppIcon /> Discuter sur WhatsApp
+            <WhatsAppIcon /> {t.applications.ctaButton}
           </a>
         </div>
       </section>
+
+      {pendingApp && (
+        <ConfirmOpenModal
+          app={pendingApp}
+          t={t}
+          onCancel={() => setPendingApp(null)}
+          onConfirm={confirmerOuverture}
+        />
+      )}
     </>
   );
 }

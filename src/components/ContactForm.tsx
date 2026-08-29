@@ -3,14 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle, AlertCircle } from 'lucide-react';
-
-const SERVICES = [
-  { value: '', label: 'Choisissez un service…' },
-  { value: 'Formation digitale & IA', label: 'Formation digitale & IA' },
-  { value: 'Infographie', label: "Création d'infographie" },
-  { value: 'Site web', label: 'Création de site web' },
-  { value: 'Autre', label: 'Autre / Je ne sais pas encore' },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 const SERVICE_MAP: Record<string, string> = {
   formations: 'Formation digitale & IA',
@@ -19,8 +12,17 @@ const SERVICE_MAP: Record<string, string> = {
 };
 
 export default function ContactForm() {
+  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const preSelected = SERVICE_MAP[searchParams.get('service') ?? ''] ?? '';
+
+  const SERVICES = [
+    { value: '', label: t.contactForm.servicePlaceholder },
+    { value: 'Formation digitale & IA', label: t.contactForm.serviceFormation },
+    { value: 'Infographie', label: t.contactForm.serviceInfographie },
+    { value: 'Site web', label: t.contactForm.serviceSiteWeb },
+    { value: 'Autre', label: t.contactForm.serviceAutre },
+  ];
 
   const [form, setForm] = useState({
     name: '',
@@ -73,9 +75,9 @@ export default function ContactForm() {
     return (
       <div className="flex flex-col items-center justify-center text-center py-16 px-4 rounded-2xl border border-green-100 bg-green-50">
         <CheckCircle size={48} className="mb-4" style={{ color: '#4FB52B' }} />
-        <h3 className="text-xl font-bold mb-2" style={{ color: '#0E2A63' }}>Demande envoyée !</h3>
+        <h3 className="text-xl font-bold mb-2" style={{ color: '#0E2A63' }}>{t.contactForm.successTitle}</h3>
         <p className="text-gray-600 max-w-sm">
-          Merci, votre demande a bien été envoyée. Nous vous répondrons rapidement à l'adresse indiquée.
+          {t.contactForm.successText}
         </p>
       </div>
     );
@@ -99,7 +101,7 @@ export default function ContactForm() {
         {/* Nom */}
         <div>
           <label htmlFor="name" className="block text-sm font-semibold mb-1.5" style={{ color: '#0E2A63' }}>
-            Nom complet <span className="text-red-500">*</span>
+            {t.contactForm.nameLabel} <span className="text-red-500">*</span>
           </label>
           <input
             id="name"
@@ -108,7 +110,7 @@ export default function ContactForm() {
             required
             value={form.name}
             onChange={handleChange}
-            placeholder="Marie Koné"
+            placeholder={t.contactForm.namePlaceholder}
             className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:border-orange-400 transition-colors"
           />
         </div>
@@ -116,7 +118,7 @@ export default function ContactForm() {
         {/* Email */}
         <div>
           <label htmlFor="email" className="block text-sm font-semibold mb-1.5" style={{ color: '#0E2A63' }}>
-            Adresse email <span className="text-red-500">*</span>
+            {t.contactForm.emailLabel} <span className="text-red-500">*</span>
           </label>
           <input
             id="email"
@@ -125,7 +127,7 @@ export default function ContactForm() {
             required
             value={form.email}
             onChange={handleChange}
-            placeholder="marie@exemple.com"
+            placeholder={t.contactForm.emailPlaceholder}
             className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:border-orange-400 transition-colors"
           />
         </div>
@@ -135,7 +137,7 @@ export default function ContactForm() {
         {/* Téléphone */}
         <div>
           <label htmlFor="phone" className="block text-sm font-semibold mb-1.5" style={{ color: '#0E2A63' }}>
-            Téléphone / WhatsApp
+            {t.contactForm.phoneLabel}
           </label>
           <input
             id="phone"
@@ -143,7 +145,7 @@ export default function ContactForm() {
             type="tel"
             value={form.phone}
             onChange={handleChange}
-            placeholder="+225 07 00 00 00 00"
+            placeholder={t.contactForm.phonePlaceholder}
             className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:border-orange-400 transition-colors"
           />
         </div>
@@ -151,7 +153,7 @@ export default function ContactForm() {
         {/* Service */}
         <div>
           <label htmlFor="service" className="block text-sm font-semibold mb-1.5" style={{ color: '#0E2A63' }}>
-            Service souhaité <span className="text-red-500">*</span>
+            {t.contactForm.serviceLabel} <span className="text-red-500">*</span>
           </label>
           <select
             id="service"
@@ -173,7 +175,7 @@ export default function ContactForm() {
       {/* Message */}
       <div>
         <label htmlFor="message" className="block text-sm font-semibold mb-1.5" style={{ color: '#0E2A63' }}>
-          Description de votre besoin <span className="text-red-500">*</span>
+          {t.contactForm.messageLabel} <span className="text-red-500">*</span>
         </label>
         <textarea
           id="message"
@@ -182,7 +184,7 @@ export default function ContactForm() {
           rows={5}
           value={form.message}
           onChange={handleChange}
-          placeholder="Décrivez votre projet, vos objectifs, vos délais… Plus vous êtes précis, mieux nous pourrons vous aider."
+          placeholder={t.contactForm.messagePlaceholder}
           className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:border-orange-400 transition-colors resize-none"
         />
       </div>
@@ -190,7 +192,7 @@ export default function ContactForm() {
       {status === 'error' && (
         <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 rounded-xl px-4 py-3">
           <AlertCircle size={16} />
-          Une erreur est survenue. Veuillez réessayer ou écrire à abidjandigital.ia@gmail.com.
+          {t.contactForm.errorMessage}
         </div>
       )}
 
@@ -200,11 +202,11 @@ export default function ContactForm() {
         className="w-full sm:w-auto px-8 py-3 rounded-xl font-bold text-white text-sm shadow-md hover:shadow-lg transition-all hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
         style={{ backgroundColor: '#F4791F' }}
       >
-        {status === 'loading' ? 'Envoi en cours…' : 'Envoyer ma demande'}
+        {status === 'loading' ? t.contactForm.submitLoading : t.contactForm.submitIdle}
       </button>
 
       <p className="text-xs text-gray-400">
-        Les champs marqués <span className="text-red-500">*</span> sont obligatoires.
+        {t.contactForm.requiredPrefix}<span className="text-red-500">*</span>{t.contactForm.requiredSuffix}
       </p>
     </form>
   );

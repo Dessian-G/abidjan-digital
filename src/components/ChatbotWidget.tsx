@@ -2,18 +2,18 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
-const WELCOME = "Bonjour 👋 Je suis Adia, l'assistante d'Abidjan Digital.ia. Je peux vous renseigner sur nos formations, nos infographies et la création de sites web. Comment puis-je vous aider ?";
-
 export default function ChatbotWidget() {
+  const { lang, t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: WELCOME },
+    { role: 'assistant', content: t.chatbot.welcome },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,6 +22,16 @@ export default function ChatbotWidget() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, open]);
+
+  // Keep the untouched welcome message in sync with the current language.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMessages(prev =>
+      prev.length === 1 && prev[0].role === 'assistant'
+        ? [{ role: 'assistant', content: t.chatbot.welcome }]
+        : prev
+    );
+  }, [t.chatbot.welcome]);
 
   const send = async () => {
     const text = input.trim();
@@ -36,14 +46,14 @@ export default function ChatbotWidget() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: newMessages, lang }),
       });
       const data = await res.json();
       setMessages([...newMessages, { role: 'assistant', content: data.reply }]);
     } catch {
       setMessages([
         ...newMessages,
-        { role: 'assistant', content: "Une erreur est survenue. Veuillez écrire à abidjandigital.ia@gmail.com." },
+        { role: 'assistant', content: t.chatbot.errorMessage },
       ]);
     } finally {
       setLoading(false);
@@ -57,7 +67,7 @@ export default function ChatbotWidget() {
         onClick={() => setOpen(!open)}
         className="fixed bottom-5 right-5 z-50 w-14 h-14 rounded-full text-white shadow-xl flex items-center justify-center transition-transform hover:scale-110 focus:outline-none"
         style={{ backgroundColor: '#F4791F' }}
-        aria-label={open ? 'Fermer le chat' : 'Ouvrir le chat avec Adia'}
+        aria-label={open ? t.chatbot.closeLabel : t.chatbot.openLabel}
       >
         {open ? <X size={24} /> : <MessageCircle size={24} />}
       </button>
@@ -73,7 +83,7 @@ export default function ChatbotWidget() {
             </div>
             <div>
               <p className="font-semibold text-sm leading-none">Adia</p>
-              <p className="text-xs text-blue-200 mt-0.5">Assistante Abidjan Digital.ia</p>
+              <p className="text-xs text-blue-200 mt-0.5">{t.chatbot.subtitle}</p>
             </div>
           </div>
 
@@ -96,7 +106,7 @@ export default function ChatbotWidget() {
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-4 py-2 text-sm text-gray-400 shadow-sm">
-                  Adia écrit…
+                  {t.chatbot.typing}
                 </div>
               </div>
             )}
@@ -110,7 +120,7 @@ export default function ChatbotWidget() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && send()}
-              placeholder="Posez votre question…"
+              placeholder={t.chatbot.placeholder}
               className="flex-1 text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-orange-400"
             />
             <button
@@ -118,7 +128,7 @@ export default function ChatbotWidget() {
               disabled={!input.trim() || loading}
               className="w-9 h-9 rounded-xl flex items-center justify-center text-white transition-opacity disabled:opacity-40"
               style={{ backgroundColor: '#F4791F' }}
-              aria-label="Envoyer"
+              aria-label={t.chatbot.sendLabel}
             >
               <Send size={16} />
             </button>

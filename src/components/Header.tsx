@@ -4,19 +4,41 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import { Lang } from '@/lib/i18n';
 
-const navLinks = [
-  { href: '/', label: 'Accueil' },
-  { href: '/services', label: 'Services' },
-  { href: '/projets', label: 'Projets' },
-  { href: '/applications', label: 'Applications' },
-  { href: '/boutique', label: 'Boutique' },
-  { href: '/a-propos', label: 'À propos' },
-  { href: '/contact', label: 'Contact' },
-];
+function LangToggle({ lang, setLang, className = '' }: { lang: Lang; setLang: (l: Lang) => void; className?: string }) {
+  return (
+    <div className={`flex items-center rounded-lg border border-gray-200 p-0.5 text-xs font-bold ${className}`}>
+      {(['fr', 'en'] as const).map(code => (
+        <button
+          key={code}
+          type="button"
+          onClick={() => setLang(code)}
+          aria-pressed={lang === code}
+          className="px-2 py-1 rounded-md transition-colors"
+          style={lang === code ? { backgroundColor: '#0E2A63', color: 'white' } : { color: '#9ca3af' }}
+        >
+          {code.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const { lang, setLang, t } = useLanguage();
+
+  const navLinks = [
+    { href: '/', label: t.nav.home },
+    { href: '/services', label: t.nav.services },
+    { href: '/projets', label: t.nav.projects },
+    { href: '/applications', label: t.nav.applications },
+    { href: '/boutique', label: t.nav.boutique },
+    { href: '/a-propos', label: t.nav.about },
+    { href: '/contact', label: t.nav.contact },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
@@ -45,6 +67,7 @@ export default function Header() {
               {label}
             </Link>
           ))}
+          <LangToggle lang={lang} setLang={setLang} className="ml-2" />
           <Link
             href="/contact"
             className="ml-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
@@ -52,18 +75,21 @@ export default function Header() {
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d6680f')}
             onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#F4791F')}
           >
-            Demander un service
+            {t.common.requestService}
           </Link>
         </nav>
 
         {/* Mobile burger */}
-        <button
-          className="md:hidden p-2 rounded-lg text-gray-700"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <LangToggle lang={lang} setLang={setLang} />
+          <button
+            className="p-2 rounded-lg text-gray-700"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -85,7 +111,7 @@ export default function Header() {
             style={{ backgroundColor: '#F4791F' }}
             onClick={() => setOpen(false)}
           >
-            Demander un service
+            {t.common.requestService}
           </Link>
         </div>
       )}

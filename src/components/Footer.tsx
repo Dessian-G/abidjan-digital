@@ -1,8 +1,13 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, Mail } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="text-white pt-10 sm:pt-12 pb-6" style={{ backgroundColor: '#0E2A63' }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
@@ -19,43 +24,43 @@ export default function Footer() {
             <span className="font-bold text-lg">Abidjan Digital.ia</span>
           </div>
           <p className="text-sm text-blue-200 italic mb-4">
-            Apprenez. Automatisez. Réussissez.
+            {t.common.tagline}
           </p>
           <p className="text-xs text-blue-300">
-            Studio web & intelligence artificielle au service des entrepreneurs francophones.
+            {t.footer.description}
           </p>
         </div>
 
         {/* Services */}
         <div>
           <h4 className="font-semibold mb-3 text-sm uppercase tracking-wide text-orange-400">
-            Services
+            {t.footer.servicesHeading}
           </h4>
           <ul className="space-y-2 text-sm text-blue-200">
-            <li><Link href="/services#formations" className="hover:text-white transition-colors">Formations digitales & IA</Link></li>
-            <li><Link href="/services#infographies" className="hover:text-white transition-colors">Création d'infographies</Link></li>
-            <li><Link href="/services#sites-web" className="hover:text-white transition-colors">Création de sites web</Link></li>
+            <li><Link href="/services#formations" className="hover:text-white transition-colors">{t.footer.services.formations}</Link></li>
+            <li><Link href="/services#infographies" className="hover:text-white transition-colors">{t.footer.services.infographies}</Link></li>
+            <li><Link href="/services#sites-web" className="hover:text-white transition-colors">{t.footer.services.sitesWeb}</Link></li>
           </ul>
         </div>
 
         {/* Navigation */}
         <div>
           <h4 className="font-semibold mb-3 text-sm uppercase tracking-wide text-orange-400">
-            Navigation
+            {t.footer.navHeading}
           </h4>
           <ul className="space-y-2 text-sm text-blue-200">
-            <li><Link href="/" className="hover:text-white transition-colors">Accueil</Link></li>
-            <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-            <li><Link href="/projets" className="hover:text-white transition-colors">Projets</Link></li>
-            <li><Link href="/a-propos" className="hover:text-white transition-colors">À propos</Link></li>
-            <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+            <li><Link href="/" className="hover:text-white transition-colors">{t.nav.home}</Link></li>
+            <li><Link href="/services" className="hover:text-white transition-colors">{t.nav.services}</Link></li>
+            <li><Link href="/projets" className="hover:text-white transition-colors">{t.nav.projects}</Link></li>
+            <li><Link href="/a-propos" className="hover:text-white transition-colors">{t.nav.about}</Link></li>
+            <li><Link href="/contact" className="hover:text-white transition-colors">{t.nav.contact}</Link></li>
           </ul>
         </div>
 
         {/* Contact */}
         <div>
           <h4 className="font-semibold mb-3 text-sm uppercase tracking-wide text-orange-400">
-            Contact
+            {t.footer.contactHeading}
           </h4>
           <ul className="space-y-3 text-sm text-blue-200">
             <li className="flex items-start gap-2">
@@ -66,18 +71,18 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-2">
               <MapPin size={15} className="mt-0.5 shrink-0 text-green-400" />
-              <span>Fort Worth, Texas — États-Unis</span>
+              <span>{t.footer.locationUS}</span>
             </li>
             <li className="flex items-start gap-2">
               <MapPin size={15} className="mt-0.5 shrink-0 text-green-400" />
-              <span>Abidjan (Cocody) — Côte d'Ivoire</span>
+              <span>{t.footer.locationCI}</span>
             </li>
           </ul>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-10 pt-6 border-t border-blue-800 text-center text-xs text-blue-400">
-        © {new Date().getFullYear()} Abidjan Digital.ia — Tous droits réservés.
+        © {new Date().getFullYear()} Abidjan Digital.ia — {t.footer.rights}
       </div>
     </footer>
   );
