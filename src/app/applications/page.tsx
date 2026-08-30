@@ -89,7 +89,7 @@ function ConfirmOpenModal({ app, t, onCancel, onConfirm }: { app: PortfolioApp; 
 }
 
 function AppCard({ app, t, onRequestOpen }: { app: PortfolioApp; t: Translations; onRequestOpen: (app: PortfolioApp) => void }) {
-  const cliquable = app.statut !== 'bientot';
+  const cliquable = app.statut !== 'bientot' && app.accesDirect !== false;
   const translated = t.applications.apps[app.id];
 
   return (
@@ -150,7 +150,7 @@ function AppCard({ app, t, onRequestOpen }: { app: PortfolioApp; t: Translations
             aria-label={`${t.applications.whatsappAriaPrefix}${app.nom}`}
           >
             <WhatsAppIcon />
-            {cliquable ? t.applications.whatsappLabel : t.applications.notifyMe}
+            {app.statut === 'bientot' ? t.applications.notifyMe : t.applications.whatsappLabel}
           </a>
         </div>
       </div>

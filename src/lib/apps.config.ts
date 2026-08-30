@@ -27,6 +27,7 @@ export interface PortfolioApp {
   couleur: string;
   initiales: string;
   logo?: string;
+  accesDirect?: boolean; // false = pas de bouton "Ouvrir l'app" (accès restreint), défaut true
 }
 
 export const APPS: PortfolioApp[] = [
@@ -137,6 +138,7 @@ export const APPS: PortfolioApp[] = [
     url: 'https://royal-ministry.vercel.app',
     couleur: '#B8860B',
     initiales: 'RM',
+    accesDirect: false,
   },
   {
     id: 'abidjan-circul',
