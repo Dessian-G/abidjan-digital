@@ -327,6 +327,11 @@ export const translations = {
           description:
             "Annuaire des commerces du District d'Abidjan avec recherche par quartier et mise en relation pour la livraison.",
         },
+        'mon-commerce': {
+          tagline: 'Commande et livraison, simple pour toi et tes clients.',
+          description:
+            'Application de commande et de livraison avec espaces Admin, Livreur et Client — commande possible sans création de compte pour le client.',
+        },
         agriconnect: {
           tagline: 'Le marché, la météo et les conseils IA pour les planteurs.',
           description:
@@ -697,6 +702,11 @@ export const translations = {
           tagline: "Every business in Abidjan, sorted by proximity.",
           description:
             'Directory of businesses across the Abidjan District with neighborhood search and delivery matching.',
+        },
+        'mon-commerce': {
+          tagline: 'Ordering and delivery, simple for you and your customers.',
+          description:
+            'Ordering and delivery app with Admin, Courier and Customer spaces — customers can order without creating an account.',
         },
         agriconnect: {
           tagline: 'Market prices, weather and AI advice for growers.',

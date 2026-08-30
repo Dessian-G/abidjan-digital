@@ -55,6 +55,18 @@ export const APPS: PortfolioApp[] = [
     initiales: 'CI',
   },
   {
+    id: 'mon-commerce',
+    nom: 'Mon Commerce',
+    tagline: 'Commande et livraison, simple pour toi et tes clients.',
+    description:
+      'Application de commande et de livraison avec espaces Admin, Livreur et Client — commande possible sans création de compte pour le client.',
+    categorie: 'Commerce',
+    statut: 'en-ligne',
+    url: 'https://livraison-app-two.vercel.app',
+    couleur: '#DB2777',
+    initiales: 'MoC',
+  },
+  {
     id: 'agriconnect',
     nom: 'AgriConnect Afrique',
     tagline: 'Le marché, la météo et les conseils IA pour les planteurs.',
