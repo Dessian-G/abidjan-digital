@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Plugin WordPress indépendant du site Next.js.
+    "famille-we/**",
   ]),
 ]);
 
