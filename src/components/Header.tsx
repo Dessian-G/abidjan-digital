@@ -35,6 +35,7 @@ export default function Header() {
     { href: '/services', label: t.nav.services },
     { href: '/projets', label: t.nav.projects },
     { href: '/applications', label: t.nav.applications },
+    { href: '/guides', label: t.nav.guides },
     { href: '/boutique', label: t.nav.boutique },
     { href: '/a-propos', label: t.nav.about },
     { href: '/contact', label: t.nav.contact },
@@ -57,12 +58,12 @@ export default function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="text-sm font-medium text-gray-700 hover:text-[#F4791F] transition-colors"
+              className="whitespace-nowrap text-sm font-medium text-gray-700 hover:text-[#F4791F] transition-colors"
             >
               {label}
             </Link>
@@ -70,7 +71,7 @@ export default function Header() {
           <LangToggle lang={lang} setLang={setLang} className="ml-2" />
           <Link
             href="/contact"
-            className="ml-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
+            className="ml-2 whitespace-nowrap px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
             style={{ backgroundColor: '#F4791F' }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d6680f')}
             onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#F4791F')}
@@ -80,7 +81,7 @@ export default function Header() {
         </nav>
 
         {/* Mobile burger */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-2">
           <LangToggle lang={lang} setLang={setLang} />
           <button
             className="p-2 rounded-lg text-gray-700"
@@ -94,7 +95,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-4 pb-4">
+        <div className="lg:hidden bg-white border-t border-gray-100 px-4 pb-4">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
