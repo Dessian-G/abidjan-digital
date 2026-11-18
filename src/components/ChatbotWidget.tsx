@@ -38,6 +38,18 @@ function renderWithLinks(text: string): ReactNode[] {
   return nodes;
 }
 
+// Si le modèle écrit malgré tout du markdown : **gras** affiché en gras, puces « * » en tirets.
+function renderMessage(text: string): ReactNode[] {
+  const clean = text.replace(/^(\s*)\* /gm, '$1- ').replace(/^#{1,6}\s+/gm, '');
+  return clean.split(/\*\*([^*\n]+?)\*\*/g).map((part, i) =>
+    i % 2 === 1 ? (
+      <strong key={i} className="font-semibold">{renderWithLinks(part)}</strong>
+    ) : (
+      <span key={i}>{renderWithLinks(part.replace(/\*\*/g, ''))}</span>
+    )
+  );
+}
+
 export default function ChatbotWidget() {
   const { lang, t } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -129,7 +141,7 @@ export default function ChatbotWidget() {
                   }`}
                   style={m.role === 'user' ? { backgroundColor: '#0E2A63' } : {}}
                 >
-                  {m.role === 'assistant' ? renderWithLinks(m.content) : m.content}
+                  {m.role === 'assistant' ? renderMessage(m.content) : m.content}
                 </div>
               </div>
             ))}
