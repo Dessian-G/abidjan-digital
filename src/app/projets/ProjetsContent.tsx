@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { ExternalLink, Globe, Image as ImageIcon, GraduationCap, Layers } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Translations } from '@/lib/i18n';
-
-type CategoryId = 'siteWeb' | 'infographie' | 'formation';
-
-const CATEGORY_IDS: CategoryId[] = ['siteWeb', 'infographie', 'formation'];
+import { PROJECT_CATEGORY_IDS as CATEGORY_IDS, PROJECT_META, ProjectCategoryId as CategoryId } from '@/lib/projects.config';
 
 const CATEGORY_ICONS: Record<CategoryId, typeof Globe> = {
   siteWeb: Globe,
@@ -21,14 +19,6 @@ const CATEGORY_COLORS: Record<CategoryId, string> = {
   formation: '#4FB52B',
 };
 
-const PROJECT_META: { categoryId: CategoryId; image?: string; link?: string }[] = [
-  { categoryId: 'siteWeb', image: '/projets/carnet-djassa.jpg', link: 'https://carnet-djassa.vercel.app' },
-  { categoryId: 'siteWeb', image: '/projets/mon-commerce.jpg', link: 'https://livraison-app-two.vercel.app' },
-  { categoryId: 'siteWeb', image: '/projets/pharmagarde-ci.jpg', link: 'https://pharmagarde-ci.vercel.app' },
-  { categoryId: 'siteWeb', image: '/projets/kaman-chantier.jpg', link: 'https://kaman-chantier.vercel.app' },
-  { categoryId: 'siteWeb', image: '/projets/ma-tontine.jpg', link: 'https://ma-tontine-d2a32.web.app' },
-];
-
 interface Project {
   title: string;
   categoryId: CategoryId;
@@ -36,6 +26,7 @@ interface Project {
   description: string;
   image?: string;
   link?: string;
+  fit?: 'cover' | 'contain';
   tags: string[];
 }
 
@@ -70,12 +61,22 @@ function ProjectCard({ project, viewProjectLabel }: { project: Project; viewProj
   return (
     <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 overflow-hidden flex flex-col">
       {project.image ? (
-        <div className="relative w-full h-48 sm:h-52 bg-gray-100 overflow-hidden">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
+        <div className="relative w-full h-56 sm:h-60 bg-gray-100 overflow-hidden">
+          {/* Sans lien externe, l'image s'ouvre en grand dans un nouvel onglet */}
+          <a
+            href={project.link ?? project.image}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full h-full"
+            style={project.fit === 'contain' ? { backgroundColor: '#0E2A63' } : undefined}
+          >
+            <img
+              src={project.image}
+              alt={project.title}
+              loading="lazy"
+              className={`w-full h-full ${project.fit === 'contain' ? 'object-contain' : 'object-cover'} ${project.categoryId === 'siteWeb' ? 'object-top' : ''} group-hover:scale-105 transition-transform duration-300`}
+            />
+          </a>
           <span
             className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold text-white"
             style={{ backgroundColor: color }}
@@ -133,6 +134,7 @@ function ProjectCard({ project, viewProjectLabel }: { project: Project; viewProj
 
 export default function ProjetsContent() {
   const { t } = useLanguage();
+  const [filter, setFilter] = useState<'all' | CategoryId>('all');
 
   const projects: Project[] = t.projets.items.map((item, i) => ({
     ...item,
@@ -159,25 +161,33 @@ export default function ProjetsContent() {
             <EmptyState t={t} />
           ) : (
             <>
-              {/* Filter tabs — ready for future use */}
+              {/* Filtres par catégorie */}
               <div className="flex flex-wrap gap-2 mb-8 sm:mb-10 justify-center">
-                {[t.projets.categoryAll, ...CATEGORY_IDS.map(id => t.projets.categories[id])].map(cat => (
-                  <span
-                    key={cat}
-                    className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold cursor-pointer transition-colors border"
-                    style={
-                      cat === t.projets.categoryAll
-                        ? { backgroundColor: '#0E2A63', color: '#fff', borderColor: '#0E2A63' }
-                        : { color: '#0E2A63', borderColor: '#e5e7eb', backgroundColor: '#fff' }
-                    }
-                  >
-                    {cat}
-                  </span>
-                ))}
+                {(['all', ...CATEGORY_IDS] as const).map(id => {
+                  const active = filter === id;
+                  const label = id === 'all' ? t.projets.categoryAll : t.projets.categories[id];
+                  const count = id === 'all' ? projects.length : projects.filter(p => p.categoryId === id).length;
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setFilter(id)}
+                      aria-pressed={active}
+                      className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-colors border"
+                      style={
+                        active
+                          ? { backgroundColor: '#0E2A63', color: '#fff', borderColor: '#0E2A63' }
+                          : { color: '#0E2A63', borderColor: '#e5e7eb', backgroundColor: '#fff' }
+                      }
+                    >
+                      {label} <span className={active ? 'opacity-80' : 'text-gray-400'}>{count}</span>
+                    </button>
+                  );
+                })}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {projects.map(project => (
+                {projects.filter(p => filter === 'all' || p.categoryId === filter).map(project => (
                   <ProjectCard key={project.title} project={project} viewProjectLabel={t.projets.viewProject} />
                 ))}
               </div>

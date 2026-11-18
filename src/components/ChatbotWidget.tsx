@@ -1,12 +1,41 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, ReactNode } from 'react';
+import Link from 'next/link';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+}
+
+// Liens externes, emails et pages du site (/guides/…, /contact?service=…) rendus cliquables.
+const LINK_RE = /(https?:\/\/[^\s<>()]+)|([\w.+-]+@[\w-]+\.[\w.-]+)|((?<=^|[\s(«"'])\/[a-z0-9][\w\-/?=&#.]*)/gi;
+const TRAILING_PUNCT = /[.,;:!?)»"']+$/;
+
+function renderWithLinks(text: string): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  let last = 0;
+  for (const match of text.matchAll(LINK_RE)) {
+    const raw = match[0];
+    const start = match.index ?? 0;
+    const href = raw.replace(TRAILING_PUNCT, '');
+    if (!href) continue;
+    nodes.push(text.slice(last, start));
+    const className = 'underline font-medium break-all';
+    const style = { color: '#F4791F' };
+    if (match[1]) {
+      nodes.push(<a key={start} href={href} target="_blank" rel="noopener noreferrer" className={className} style={style}>{href}</a>);
+    } else if (match[2]) {
+      nodes.push(<a key={start} href={`mailto:${href}`} className={className} style={style}>{href}</a>);
+    } else {
+      nodes.push(<Link key={start} href={href} className={className} style={style}>{href}</Link>);
+    }
+    last = start + href.length;
+  }
+  nodes.push(text.slice(last));
+  return nodes;
 }
 
 export default function ChatbotWidget() {
@@ -49,7 +78,8 @@ export default function ChatbotWidget() {
         body: JSON.stringify({ messages: newMessages, lang }),
       });
       const data = await res.json();
-      setMessages([...newMessages, { role: 'assistant', content: data.reply }]);
+      const reply = typeof data?.reply === 'string' && data.reply ? data.reply : t.chatbot.errorMessage;
+      setMessages([...newMessages, { role: 'assistant', content: reply }]);
     } catch {
       setMessages([
         ...newMessages,
@@ -92,14 +122,14 @@ export default function ChatbotWidget() {
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
-                  className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
+                  className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
                     m.role === 'user'
                       ? 'text-white rounded-br-sm'
                       : 'text-gray-800 bg-white border border-gray-200 rounded-bl-sm shadow-sm'
                   }`}
                   style={m.role === 'user' ? { backgroundColor: '#0E2A63' } : {}}
                 >
-                  {m.content}
+                  {m.role === 'assistant' ? renderWithLinks(m.content) : m.content}
                 </div>
               </div>
             ))}

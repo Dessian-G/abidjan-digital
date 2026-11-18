@@ -29,9 +29,12 @@ html {
   scroll-behavior: smooth;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+/* Dans la couche « base » : les classes Tailwind (h-full, object-cover…) passent devant */
+@layer base {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @media (max-width: 640px) {

@@ -187,6 +187,16 @@ export default function ApplicationsPage() {
             {t.applications.heroSubtitle}
           </p>
         </div>
+        <div className="max-w-4xl mx-auto mt-8 sm:mt-10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/realisations/sites-et-applications.jpg"
+            alt={t.applications.heroTitle}
+            width={1400}
+            height={934}
+            className="w-full h-auto rounded-2xl shadow-2xl border border-white/10"
+          />
+        </div>
       </section>
 
       {/* GRID */}

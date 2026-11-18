@@ -224,6 +224,24 @@ export const translations = {
             'Gestion digitale de tontines : grille de cotisations membres × mois, reçus automatiques et rappels envoyés directement sur WhatsApp.',
           tags: ['PWA', 'Firebase', 'WhatsApp'],
         },
+        {
+          title: 'Formation en intelligence artificielle',
+          description:
+            "Formation pratique à l'IA pour entrepreneurs : ChatGPT et IA générative, automatisation avec n8n, création de contenu et outils d'IA pour le business.",
+          tags: ['ChatGPT', 'n8n', 'IA générative'],
+        },
+        {
+          title: 'Bohobli Skin Care',
+          description:
+            'Affiche publicitaire pour une gamme de soins de la peau : mise en scène des produits, identité visuelle et message de marque.',
+          tags: ['Affiche', 'Cosmétique', 'Publicité'],
+        },
+        {
+          title: 'Business IA Kit',
+          description:
+            "Visuel de couverture du Business IA Kit, « 50 prompts pour lancer ton business avec l'IA », pensé pour les réseaux sociaux.",
+          tags: ['Couverture', 'Réseaux sociaux', 'IA'],
+        },
       ],
       ctaTitle: 'Vous avez un projet ?',
       ctaText: 'Parlez-nous de votre idee — nous la transformons en realite digitale.',
@@ -272,7 +290,7 @@ export const translations = {
       closeLabel: 'Fermer le chat',
       subtitle: 'Assistante Abidjan Digital.ia',
       welcome:
-        "Bonjour 👋 Je suis Adia, l'assistante d'Abidjan Digital.ia. Je peux vous renseigner sur nos formations, nos infographies et la création de sites web. Comment puis-je vous aider ?",
+        "Bonjour 👋 Je suis Adia, l'assistante d'Abidjan Digital.ia. Je peux vous renseigner sur nos services (formations IA, infographies, sites web), nos applications, nos guides gratuits et notre boutique. Comment puis-je vous aider ?",
       typing: 'Adia écrit…',
       placeholder: 'Posez votre question…',
       sendLabel: 'Envoyer',
@@ -665,6 +683,24 @@ export const translations = {
             'Digital tontine management: members × months contribution grid, automatic receipts and reminders sent directly on WhatsApp.',
           tags: ['PWA', 'Firebase', 'WhatsApp'],
         },
+        {
+          title: 'Artificial intelligence training',
+          description:
+            'Hands-on AI training for entrepreneurs: ChatGPT and generative AI, automation with n8n, content creation and AI tools for business.',
+          tags: ['ChatGPT', 'n8n', 'Generative AI'],
+        },
+        {
+          title: 'Bohobli Skin Care',
+          description:
+            'Advertising poster for a skincare range: product staging, visual identity and brand message.',
+          tags: ['Poster', 'Cosmetics', 'Advertising'],
+        },
+        {
+          title: 'Business IA Kit',
+          description:
+            'Cover visual for the Business IA Kit, "50 prompts to launch your business with AI", designed for social media.',
+          tags: ['Cover', 'Social media', 'AI'],
+        },
       ],
       ctaTitle: 'Have a project?',
       ctaText: "Tell us about your idea — we'll turn it into digital reality.",
@@ -713,7 +749,7 @@ export const translations = {
       closeLabel: 'Close chat',
       subtitle: 'Abidjan Digital.ia Assistant',
       welcome:
-        "Hello 👋 I'm Adia, the Abidjan Digital.ia assistant. I can tell you about our training, graphic design and website creation services. How can I help you?",
+        "Hello 👋 I'm Adia, the Abidjan Digital.ia assistant. I can tell you about our services (AI training, graphic design, websites), our apps, our free guides and our shop. How can I help you?",
       typing: 'Adia is typing…',
       placeholder: 'Ask your question…',
       sendLabel: 'Send',

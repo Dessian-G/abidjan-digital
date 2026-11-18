@@ -8,6 +8,12 @@ const IDS = ['formations', 'infographies', 'sites-web'];
 const ICONS = [GraduationCap, ImageIcon, Globe];
 const COLORS = ['#4FB52B', '#F4791F', '#0E2A63'];
 const BACKGROUNDS = ['rgba(79,181,43,0.08)', 'rgba(244,121,31,0.08)', 'rgba(14,42,99,0.08)'];
+// Image de chaque service ('contain' = visuel affiché en entier, sans recadrage)
+const IMAGES: { src: string; fit: 'cover' | 'contain'; position?: string }[] = [
+  { src: '/realisations/formation-ia.jpg', fit: 'cover' },
+  { src: '/realisations/bohobli-skin-care.jpg', fit: 'contain' },
+  { src: '/realisations/sites-et-applications.jpg', fit: 'contain' },
+];
 
 export default function ServicesContent() {
   const { t } = useLanguage();
@@ -18,6 +24,7 @@ export default function ServicesContent() {
     icon: ICONS[i],
     color: COLORS[i],
     bg: BACKGROUNDS[i],
+    image: IMAGES[i],
   }));
 
   return (
@@ -35,21 +42,31 @@ export default function ServicesContent() {
       {/* SERVICES */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-5xl mx-auto space-y-12 sm:space-y-16">
-          {services.map(({ id, icon: Icon, color, bg, title, intro, benefits, deliverables }, idx) => (
+          {services.map(({ id, icon: Icon, color, bg, image, title, intro, benefits, deliverables }, idx) => (
             <div
               key={id}
               id={id}
               className={`flex flex-col ${idx % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-6 sm:gap-8 items-start`}
             >
               {/* Visual card */}
-              <div
-                className="w-full md:w-2/5 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center shrink-0"
-                style={{ backgroundColor: bg, minHeight: '180px' }}
-              >
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-sm" style={{ backgroundColor: `${color}20` }}>
-                  <Icon size={32} style={{ color }} />
+              <div className="w-full md:w-2/5 rounded-2xl overflow-hidden shrink-0 shadow-sm" style={{ backgroundColor: bg }}>
+                <div
+                  className="w-full h-56 sm:h-64"
+                  style={image.fit === 'contain' ? { backgroundColor: '#0E2A63' } : undefined}
+                >
+                  <img
+                    src={image.src}
+                    alt={title}
+                    loading="lazy"
+                    className={`w-full h-full ${image.fit === 'contain' ? 'object-contain' : 'object-cover'} ${image.position ?? ''}`}
+                  />
                 </div>
-                <h2 className="text-xl font-extrabold" style={{ color: '#0E2A63' }}>{title}</h2>
+                <div className="flex items-center gap-3 px-5 py-4">
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}20` }}>
+                    <Icon size={22} style={{ color }} />
+                  </div>
+                  <h2 className="text-lg sm:text-xl font-extrabold" style={{ color: '#0E2A63' }}>{title}</h2>
+                </div>
               </div>
 
               {/* Content */}
